@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退休计算器测试报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            color: #0a0a0a;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 4px solid #0a0a0a;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #525252;
+            font-size: 14px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #0a0a0a;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .summary-card .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #525252;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .summary-card.pass .value { color: #059669; }
+        .summary-card.fail .value { color: #dc2626; }
+        .summary-card.total .value { color: #0a0a0a; }
+        .summary-card.rate .value { color: #2563eb; }
+
+        .section {
+            background: white;
+            border: 2px solid #0a0a0a;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            background: #0a0a0a;
+            color: white;
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .test-list {
+            padding: 0;
+        }
+
+        .test-item {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
+        .test-item:hover {
+            background: #f9fafb;
+        }
+
+        .test-info {
+            flex: 1;
+        }
+
+        .test-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: #525252;
+            margin-bottom: 4px;
+        }
+
+        .test-desc {
+            font-size: 14px;
+            color: #0a0a0a;
+        }
+
+        .test-status {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .test-status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .test-status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .test-status.error {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e5e5e5;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #059669;
+            transition: width 0.5s ease;
+        }
+
+        .run-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #0a0a0a;
+            color: white;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+
+        .run-button:hover {
+            background: #262626;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: #737373;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>测试报告</h1>
+            <p>全国退休计算器自动化测试套件</p>
+        </div>
+
+        <button class="run-button" onclick="runTests()">运行测试</button>
+
+        <div class="summary" id="summary" style="display: none;">
+            <div class="summary-card total">
+                <div class="label">总测试数</div>
+                <div class="value" id="totalCount">-</div>
+            </div>
+            <div class="summary-card pass">
+                <div class="label">通过</div>
+                <div class="value" id="passCount">-</div>
+            </div>
+            <div class="summary-card fail">
+                <div class="label">失败</div>
+                <div class="value" id="failCount">-</div>
+            </div>
+            <div class="summary-card rate">
+                <div class="label">通过率</div>
+                <div class="value" id="passRate">-</div>
+            </div>
+        </div>
+
+        <div class="progress-bar" id="progressBar" style="display: none;">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <div id="testResults"></div>
+
+        <div class="timestamp" id="timestamp"></div>
+    </div>
+
+    <script src="test.js"></script>
+    <script>
+        function runTests() {
+            const results = runAllTests();
+
+            // 显示汇总
+            document.getElementById('summary').style.display = 'grid';
+            document.getElementById('totalCount').textContent = results.total;
+            document.getElementById('passCount').textContent = results.passed;
+            document.getElementById('failCount').textContent = results.failed;
+            document.getElementById('passRate').textContent = results.passRate + '%';
+
+            // 进度条
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('progressFill').style.width = results.passRate + '%';
+            if (results.failed > 0) {
+                document.getElementById('progressFill').style.background = '#dc2626';
+            } else {
+                document.getElementById('progressFill').style.background = '#059669';
+            }
+
+            // 按类别分组显示结果
+            const container = document.getElementById('testResults');
+            container.innerHTML = '';
+
+            const categories = {
+                'TC-M': '男性延迟退休测试',
+                'TC-FR': '女性干部延迟退休测试',
+                'TC-FW': '女性工人延迟退休测试',
+                'TC-SP': '计发月数表测试',
+                'TC-P': '基础养老金计算测试',
+                'TC-PA': '个人账户养老金测试',
+                'TC-TR': '过渡性养老金测试',
+                'TC-BASE': '缴费基数验证测试',
+                'TC-BOUND': '边界条件测试',
+                'TC-FMT': '数据格式化测试'
+            };
+
+            const grouped = {};
+            results.results.forEach(r => {
+                const prefix = Object.keys(categories).find(k => r.id.startsWith(k));
+                const category = categories[prefix] || '其他测试';
+                if (!grouped[category]) grouped[category] = [];
+                grouped[category].push(r);
+            });
+
+            Object.entries(grouped).forEach(([category, tests]) => {
+                const section = document.createElement('div');
+                section.className = 'section';
+
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                const passCount = tests.filter(t => t.status === 'PASS').length;
+                header.textContent = `${category} (${passCount}/${tests.length})`;
+                section.appendChild(header);
+
+                const list = document.createElement('div');
+                list.className = 'test-list';
+
+                tests.forEach(test => {
+                    const item = document.createElement('div');
+                    item.className = 'test-item';
+
+                    const info = document.createElement('div');
+                    info.className = 'test-info';
+                    info.innerHTML = `
+                        <div class="test-id">${test.id}</div>
+                        <div class="test-desc">${test.description}</div>
+                    `;
+
+                    const status = document.createElement('span');
+                    status.className = `test-status ${test.status.toLowerCase()}`;
+                    status.textContent = test.status === 'PASS' ? '✓ 通过' :
+                                        test.status === 'FAIL' ? '✗ 失败' : '⚠ 错误';
+
+                    item.appendChild(info);
+                    item.appendChild(status);
+                    list.appendChild(item);
+                });
+
+                section.appendChild(list);
+                container.appendChild(section);
+            });
+
+            document.getElementById('timestamp').textContent = '测试时间: ' + new Date().toLocaleString('zh-CN');
+        }
+
+        // 页面加载完成后自动运行测试
+        window.onload = runTests;
+    </script>
+</body>
+</html>

@@ -1,0 +1,671 @@
+/* ==================== Swiss Style / International Typographic Style ==================== */
+/* 核心原则：网格系统、功能优先、客观性、无衬线字体 */
+
+:root {
+    /* Swiss Color Palette - 极简 + 高对比 */
+    --swiss-black: #0a0a0a;
+    --swiss-white: #ffffff;
+    --swiss-gray-100: #f5f5f5;
+    --swiss-gray-200: #e5e5e5;
+    --swiss-gray-300: #d4d4d4;
+    --swiss-gray-400: #a3a3a3;
+    --swiss-gray-500: #737373;
+    --swiss-gray-600: #525252;
+    --swiss-gray-700: #404040;
+    --swiss-gray-800: #262626;
+    --swiss-gray-900: #171717;
+
+    /* 单一强调色 - 瑞士红 */
+    --swiss-accent: #e30613;
+    --swiss-accent-dark: #b8050f;
+
+    /* 备用强调色（可选） */
+    /* --swiss-accent: #0066cc;  瑞士蓝 */
+    /* --swiss-accent: #ff6b00;  活力橙 */
+
+    /* Grid System - 8px baseline */
+    --grid-unit: 8px;
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-5: 40px;
+    --space-6: 48px;
+    --space-8: 64px;
+    --space-10: 80px;
+    --space-12: 96px;
+
+    /* Typography Scale - 基于 1.25 比例 */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 20px;
+    --text-xl: 25px;
+    --text-2xl: 31px;
+    --text-3xl: 39px;
+    --text-4xl: 48px;
+
+    /* Line Heights */
+    --leading-tight: 1.1;
+    --leading-snug: 1.25;
+    --leading-normal: 1.5;
+
+    /* Font Weights - Swiss Style 只用 Regular 和 Bold */
+    --font-normal: 400;
+    --font-bold: 700;
+
+    /* Borders */
+    --border-thin: 1px;
+    --border-thick: 2px;
+    --border-heavy: 4px;
+
+    /* Transitions - 快速直接 */
+    --transition-fast: 100ms ease;
+    --transition-base: 150ms ease;
+}
+
+/* ==================== Reset & Base ==================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--swiss-white);
+    color: var(--swiss-black);
+    line-height: var(--leading-normal);
+    font-weight: var(--font-normal);
+}
+
+/* ==================== Swiss Grid Layout ==================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-2);
+}
+
+/* ==================== Header - 大胆排版 ==================== */
+.header {
+    grid-column: 1 / -1;
+    padding: var(--space-8) 0 var(--space-6);
+    margin-bottom: var(--space-4);
+    border-bottom: var(--border-heavy) solid var(--swiss-black);
+}
+
+.header h1 {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--swiss-black);
+    margin-bottom: var(--space-2);
+}
+
+.header h1 span {
+    color: var(--swiss-accent);
+}
+
+.header p {
+    font-size: var(--text-lg);
+    color: var(--swiss-gray-600);
+    font-weight: var(--font-normal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* ==================== Navigation - 清晰分割 ==================== */
+.tabs {
+    grid-column: 1 / -1;
+    display: flex;
+    margin-bottom: var(--space-4);
+    border-bottom: var(--border-thick) solid var(--swiss-black);
+}
+
+.tab-btn {
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    background: transparent;
+    color: var(--swiss-gray-500);
+    font-weight: var(--font-bold);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    transition: color var(--transition-fast);
+}
+
+.tab-btn:hover {
+    color: var(--swiss-gray-800);
+}
+
+.tab-btn.active {
+    color: var(--swiss-black);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--swiss-accent);
+}
+
+/* ==================== Cards - 网格边界 ==================== */
+.card {
+    grid-column: 1 / -1;
+    background: var(--swiss-white);
+    border: var(--border-thick) solid var(--swiss-black);
+    margin-bottom: var(--space-3);
+}
+
+.card-header {
+    background: var(--swiss-black);
+    color: var(--swiss-white);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header .badge {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    padding: 4px 8px;
+    background: var(--swiss-white);
+    color: var(--swiss-black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.card-body {
+    padding: var(--space-3);
+}
+
+/* ==================== Forms - 功能优先 ==================== */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.form-group {
+    margin-bottom: var(--space-2);
+}
+
+label {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--swiss-black);
+    font-weight: var(--font-bold);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+label .required {
+    color: var(--swiss-accent);
+    margin-left: 4px;
+}
+
+label .hint {
+    color: var(--swiss-gray-500);
+    font-weight: var(--font-normal);
+    text-transform: none;
+    margin-left: var(--space-1);
+}
+
+/* Inputs - 硬朗线条 */
+input, select {
+    width: 100%;
+    padding: var(--space-1) 0;
+    background: transparent;
+    border: none;
+    border-bottom: var(--border-thick) solid var(--swiss-gray-300);
+    border-radius: 0;
+    font-size: var(--text-base);
+    color: var(--swiss-black);
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+}
+
+input:hover, select:hover {
+    border-color: var(--swiss-gray-500);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--swiss-accent);
+    border-bottom-width: 3px;
+}
+
+input::placeholder {
+    color: var(--swiss-gray-400);
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230a0a0a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: var(--space-2);
+}
+
+/* Input Hints */
+.input-hint {
+    font-size: var(--text-xs);
+    color: var(--swiss-gray-500);
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+.input-hint.error {
+    color: var(--swiss-accent);
+    font-weight: var(--font-bold);
+}
+
+.input-hint.success {
+    color: var(--swiss-black);
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) 0;
+    min-height: 48px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--swiss-accent);
+    border: var(--border-thick) solid var(--swiss-black);
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    cursor: pointer;
+    font-weight: var(--font-normal);
+    text-transform: none;
+    font-size: var(--text-base);
+}
+
+/* ==================== Buttons - 硬朗几何 ==================== */
+.btn-group {
+    display: flex;
+    gap: var(--space-1);
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: var(--space-1) var(--space-3);
+    border: var(--border-thick) solid var(--swiss-black);
+    border-radius: 0;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 140px;
+}
+
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--swiss-black);
+}
+
+.btn:active {
+    transform: translate(0, 0);
+    box-shadow: none;
+}
+
+.btn-primary {
+    background: var(--swiss-accent);
+    color: var(--swiss-white);
+    border-color: var(--swiss-accent);
+}
+
+.btn-primary:hover {
+    background: var(--swiss-accent-dark);
+    border-color: var(--swiss-accent-dark);
+    box-shadow: 4px 4px 0 var(--swiss-black);
+}
+
+.btn-secondary {
+    background: var(--swiss-white);
+    color: var(--swiss-black);
+}
+
+.btn-secondary:hover {
+    background: var(--swiss-gray-100);
+}
+
+.btn-export {
+    background: var(--swiss-black);
+    color: var(--swiss-white);
+}
+
+.btn-export:hover {
+    background: var(--swiss-gray-800);
+}
+
+/* ==================== Results Card ==================== */
+.results-card {
+    grid-column: 1 / -1;
+    background: var(--swiss-white);
+    border: var(--border-thick) solid var(--swiss-black);
+    padding: var(--space-3);
+    margin-top: var(--space-4);
+    display: none;
+}
+
+.results-card.show {
+    display: block;
+}
+
+.results-card h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--swiss-black);
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-2);
+}
+
+.result-item {
+    padding: var(--space-2);
+    border-left: var(--border-heavy) solid var(--swiss-gray-300);
+    transition: border-color var(--transition-fast);
+}
+
+.result-item:hover {
+    border-left-color: var(--swiss-accent);
+}
+
+.result-label {
+    color: var(--swiss-gray-600);
+    font-size: var(--text-xs);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: var(--font-bold);
+}
+
+.result-value {
+    color: var(--swiss-black);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+}
+
+.result-value.highlight {
+    color: var(--swiss-accent);
+    font-size: var(--text-3xl);
+}
+
+/* ==================== Info Boxes - 清晰分层 ==================== */
+.info-box, .warning-box, .success-box, .error-box {
+    padding: var(--space-2);
+    margin-top: var(--space-3);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    border-left: var(--border-heavy) solid;
+    background: var(--swiss-gray-100);
+}
+
+.info-box {
+    border-color: var(--swiss-black);
+    background: var(--swiss-gray-100);
+}
+
+.warning-box {
+    border-color: var(--swiss-accent);
+    background: var(--swiss-white);
+}
+
+.success-box {
+    border-color: var(--swiss-black);
+    background: var(--swiss-gray-100);
+}
+
+.error-box {
+    border-color: var(--swiss-accent);
+    background: var(--swiss-white);
+    color: var(--swiss-accent);
+}
+
+/* ==================== Formula Box ==================== */
+.formula-box {
+    background: var(--swiss-gray-100);
+    border: var(--border-thin) solid var(--swiss-gray-300);
+    padding: var(--space-2);
+    margin-top: var(--space-3);
+    font-family: 'SF Mono', 'Courier New', monospace;
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    color: var(--swiss-gray-700);
+}
+
+.formula-box strong {
+    color: var(--swiss-black);
+    font-weight: var(--font-bold);
+}
+
+/* ==================== Data Table - 极简网格 ==================== */
+.reference-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    border-top: var(--border-thick) solid var(--swiss-black);
+    border-bottom: var(--border-thick) solid var(--swiss-black);
+}
+
+.reference-table th, .reference-table td {
+    padding: var(--space-1) var(--space-2);
+    text-align: left;
+    border-bottom: var(--border-thin) solid var(--swiss-gray-300);
+}
+
+.reference-table th {
+    font-weight: var(--font-bold);
+    color: var(--swiss-black);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    border-bottom: var(--border-thick) solid var(--swiss-black);
+}
+
+.reference-table tr:last-child td {
+    border-bottom: none;
+}
+
+.reference-table tr:hover td {
+    background: var(--swiss-gray-100);
+}
+
+/* ==================== Advanced Options ==================== */
+.toggle-advanced {
+    color: var(--swiss-black);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    margin-top: var(--space-3);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--space-1) 0;
+    border-bottom: var(--border-thick) solid transparent;
+    transition: border-color var(--transition-fast);
+}
+
+.toggle-advanced:hover {
+    border-bottom-color: var(--swiss-accent);
+}
+
+.advanced-options {
+    background: var(--swiss-gray-100);
+    border-left: var(--border-heavy) solid var(--swiss-black);
+    padding: var(--space-2) var(--space-3);
+    margin-top: var(--space-2);
+    display: none;
+}
+
+.advanced-options.show {
+    display: block;
+}
+
+/* ==================== Tab Content ==================== */
+.tab-content {
+    grid-column: 1 / -1;
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--space-2);
+    }
+
+    .header {
+        padding: var(--space-6) 0 var(--space-4);
+    }
+
+    .header h1 {
+        font-size: var(--text-3xl);
+    }
+
+    .card-body {
+        padding: var(--space-2);
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .result-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .result-value {
+        font-size: var(--text-xl);
+    }
+
+    .result-value.highlight {
+        font-size: var(--text-2xl);
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+    }
+
+    .tab-btn {
+        font-size: var(--text-xs);
+        padding: var(--space-1);
+    }
+}
+
+/* ==================== Print Styles ==================== */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .tabs, .btn-group, .toggle-advanced, .header p {
+        display: none !important;
+    }
+
+    .results-card {
+        display: block !important;
+        page-break-inside: avoid;
+        background: white;
+        border: 2px solid black;
+    }
+
+    .card {
+        background: white;
+        border: 2px solid black;
+        page-break-inside: avoid;
+    }
+
+    .card-header {
+        background: black !important;
+        color: white !important;
+    }
+
+    .result-value.highlight {
+        color: var(--swiss-accent);
+    }
+}
+
+/* ==================== Reduced Motion ==================== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+    }
+
+    .btn:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* ==================== Focus States ==================== */
+*:focus-visible {
+    outline: var(--border-heavy) solid var(--swiss-accent);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: none;
+}

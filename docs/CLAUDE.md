@@ -105,7 +105,9 @@ const delayMonths = Math.floor(monthsSinceStart / 4);  // 最大36个月
 ```
 retirement-calculator/
 ├── src/
-│   ├── index.html          # 主程序（单文件，含HTML/CSS/JS）
+│   ├── index.html          # 主程序（HTML结构）
+│   ├── styles.css          # 样式文件（Material Design 3风格）
+│   ├── app.js              # JavaScript逻辑
 │   ├── test.html           # 可视化测试报告页面
 │   └── test.js             # 自动化测试套件
 ├── docs/
@@ -125,10 +127,10 @@ retirement-calculator/
 
 ## 技术规范
 
-### 单文件架构
-- 所有代码（HTML/CSS/JS）合并到一个 `index.html` 文件
-- 便于用户双击打开使用，无需配置服务器
-- 无外部依赖，离线可用
+### 分离式架构
+- HTML/CSS/JS 分离到独立文件，职责清晰
+- 便于维护和样式切换
+- 无外部依赖，离线可用（仅使用 CDN 字体）
 
 ### 代码组织
 ```javascript
