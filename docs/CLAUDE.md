@@ -7,9 +7,10 @@
 **全国退休计算器** - 一个支持全国各省份、包含渐进式延迟退休政策的网页版退休计算工具。
 
 - **版本**: v1.0.0
-- **技术栈**: 原生 HTML5 + CSS3 + ES6，单文件架构
+- **技术栈**: 原生 HTML5 + CSS3 + ES6，分离式架构
 - **目标用户**: 需要计算退休年龄和估算养老金的普通用户
 - **数据持久化**: LocalStorage 自动保存用户输入
+- **设计风格**: 瑞士/国际主义风格 (Swiss Style)
 
 ## 核心功能
 
@@ -35,6 +36,78 @@
 ### 4. 导出功能
 - 支持导出退休计算结果为 txt 文件
 - 支持导出养老金测算结果为 txt 文件
+
+## 项目结构
+
+```
+retirement-calculator/
+├── src/
+│   ├── index.html          # 主程序（HTML结构）
+│   ├── styles.css          # 样式文件（瑞士风格）
+│   ├── app.js              # JavaScript逻辑
+│   ├── test.html           # 可视化测试报告页面
+│   └── test.js             # 自动化测试套件
+├── docs/
+│   ├── CLAUDE.md           # 本文件：AI助手项目指南
+│   ├── CONTEXT.md          # 项目背景和技术栈说明
+│   ├── DECISIONS.md        # 架构决策记录(ADR)
+│   ├── LESSONS.md          # 踩坑记录和解决方案
+│   ├── TEST_CASES.md       # 测试用例和测试记录
+│   └── CHANGELOG.md        # 更新日志
+├── PROMPTS/                # AI 提示词模板
+│   └── README.md
+└── README.md               # 项目说明文档
+```
+
+## 技术规范
+
+### 分离式架构
+- HTML/CSS/JS 分离到独立文件，职责清晰
+- 便于维护和样式切换
+- 无外部依赖，离线可用（仅使用 CDN 字体）
+
+### 代码组织
+```javascript
+// 数据配置区域
+const provinceData = { ... };
+const retirementConfig = { ... };
+
+// 工具函数区域
+function formatMoney(amount) { ... }
+function calculateAge(birthDate) { ... }
+
+// LocalStorage 持久化
+function saveToLocal() { ... }
+function loadFromLocal() { ... }
+
+// 核心业务逻辑区域
+function calculateDelayMonths(birthYear, birthMonth, config) { ... }
+function calculateRetirement() { ... }
+function calculatePension() { ... }
+```
+
+### 设计风格 - 瑞士/国际主义风格
+
+**核心原则：**
+- 网格系统（8px 基线网格）
+- 功能优先，去除装饰
+- 高对比度（黑白为主 + 单一强调色）
+- 无衬线字体，粗体标题
+- 硬朗的几何线条
+
+**色彩系统：**
+```css
+--swiss-black: #0a0a0a      /* 主文字 */
+--swiss-white: #ffffff      /* 背景 */
+--swiss-accent: #e30613     /* 瑞士红强调色 */
+--swiss-gray-500: #737373   /* 次要文字 */
+```
+
+**设计特点：**
+- 2-4px 实线边框
+- 无圆角或极小圆角
+- 悬停时按钮偏移 + 投影
+- 左侧彩色边框条标识重要内容
 
 ## 渐进式延迟退休政策（2025年起实施）
 
@@ -100,65 +173,7 @@ const delayMonths = Math.floor(monthsSinceStart / 4);  // 最大36个月
 | 50岁 | 195 | 60岁 | 139 |
 | 55岁 | 170 | 63岁 | 117 |
 
-## 项目结构
-
-```
-retirement-calculator/
-├── src/
-│   ├── index.html          # 主程序（HTML结构）
-│   ├── styles.css          # 样式文件（Material Design 3风格）
-│   ├── app.js              # JavaScript逻辑
-│   ├── test.html           # 可视化测试报告页面
-│   └── test.js             # 自动化测试套件
-├── docs/
-│   ├── CLAUDE.md           # 本文件：AI助手项目指南
-│   ├── CONTEXT.md          # 项目背景和技术栈说明
-│   ├── DECISIONS.md        # 架构决策记录(ADR)
-│   ├── LESSONS.md          # 踩坑记录和解决方案
-│   ├── TEST_CASES.md       # 测试用例和测试记录
-│   └── CHANGELOG.md        # 更新日志
-├── PROMPTS/                # AI 提示词模板
-│   ├── 01-需求分析.md
-│   ├── 02-生成骨架.md
-│   ├── 03-实现逻辑.md
-│   └── 04-代码审查.md
-└── README.md               # 项目说明文档
-```
-
-## 技术规范
-
-### 分离式架构
-- HTML/CSS/JS 分离到独立文件，职责清晰
-- 便于维护和样式切换
-- 无外部依赖，离线可用（仅使用 CDN 字体）
-
-### 代码组织
-```javascript
-// 数据配置区域
-const provinceData = { ... };
-const retirementConfig = { ... };
-
-// 工具函数区域
-function formatMoney(amount) { ... }
-function calculateAge(birthDate) { ... }
-
-// LocalStorage 持久化
-function saveToLocal() { ... }
-function loadFromLocal() { ... }
-
-// 核心业务逻辑区域
-function calculateDelayMonths(birthYear, birthMonth, config) { ... }
-function calculateRetirement() { ... }
-function calculatePension() { ... }
-```
-
-### 样式规范
-- 使用 CSS Variables 定义主题色
-- 响应式布局：grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
-- 移动端优先：最小宽度 280px
-- 打印样式支持：@media print
-
-### 关键算法
+## 关键算法
 
 #### 延迟月数计算
 ```javascript
@@ -195,30 +210,6 @@ for (let i = 0; i <= 30; i += 5) {
 }
 ```
 
-## 开发注意事项
-
-### 1. 日期处理
-- 闰年2月29日处理：退休日期计算时需检查，非闰年退到2月28日
-- 退休日期 = 出生日期 + 退休年龄（年月）
-
-### 2. 边界条件
-- 1965-01、1970-01、1975-01 分别是三类人群的延迟起点，延迟月数为0
-- 缴费年限不足15年时要提示用户无法领取养老金
-- 缴费基数超出省份上下限时要给出警告提示
-
-### 3. 浮点数精度
-- 使用 toFixed(2) 格式化金额
-- 比较时使用 tolerance（容差）进行比较
-
-### 4. LocalStorage
-- 每次输入变化自动保存（onchange 事件）
-- 页面加载时自动恢复（DOMContentLoaded）
-- 重置按钮调用 localStorage.removeItem()
-
-### 5. 导出功能
-- 使用 Blob 和 URL.createObjectURL 生成下载链接
-- 导出内容为纯文本格式（.txt）
-
 ## 测试
 
 ### 运行测试
@@ -226,16 +217,18 @@ for (let i = 0; i <= 30; i += 5) {
 # 可视化测试报告
 open src/test.html
 
-# 控制台快速测试（浏览器开发者工具）
+# 控制台快速测试（浏览器开发者工具或 Node.js）
 runAllTests()
 ```
 
 ### 测试覆盖
-- 延迟退休计算：男性8例、女性干部5例、女性工人6例
-- 提前退休：特殊工种4例、病退3例
-- 养老金计算：基础养老金4例、个人账户5例、过渡性养老金3例
-- 缴费基数验证：3例
-- 功能测试：LocalStorage、导出、界面交互
+- **延迟退休计算**: 男性8例、女性干部5例、女性工人6例
+- **养老金计算**: 基础养老金3例、个人账户5例、过渡性养老金3例
+- **计发月数表**: 5例
+- **缴费基数验证**: 3例
+- **边界条件**: 5例
+- **数据格式化**: 4例
+- **合计**: 47个测试用例，通过率100%
 
 ## 修改检查清单
 
@@ -247,7 +240,8 @@ runAllTests()
 - [ ] 是否验证了缴费基数的上下限提示
 - [ ] 是否测试了过渡性养老金的计算
 - [ ] 是否检查了LocalStorage的保存和恢复
-- [ ] 是否更新了 TEST_CASES.md 添加新的测试用例
+- [ ] 是否更新了 test.js 添加新的测试用例
+- [ ] 是否保持瑞士风格的设计一致性
 
 ## 常见错误
 
@@ -257,6 +251,7 @@ runAllTests()
 4. **特殊工种最低年龄**：男性55岁、女性45岁是硬性门槛
 5. **缴费基数验证遗漏**：需要校验是否在省份规定的上下限范围内
 6. **LocalStorage键名冲突**：确保键名唯一，避免与其他应用冲突
+7. **瑞士风格破坏**：不要随意添加圆角、渐变或阴影装饰
 
 ## 参考数据
 
@@ -272,4 +267,4 @@ runAllTests()
 
 ---
 
-*最后更新: 2026-03-31*
+*最后更新: 2026-04-01*
