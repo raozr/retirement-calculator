@@ -435,6 +435,14 @@ select {
     font-size: var(--text-3xl);
 }
 
+/* 计发月数提示 - 小字显示 */
+.pension-months-hint {
+    font-size: var(--text-sm);
+    color: var(--swiss-gray-500);
+    font-weight: var(--font-normal);
+    margin-left: 4px;
+}
+
 /* ==================== Info Boxes - 清晰分层 ==================== */
 .info-box, .warning-box, .success-box, .error-box {
     padding: var(--space-2);
@@ -592,6 +600,10 @@ select {
 
     .result-value.highlight {
         font-size: var(--text-2xl);
+    }
+
+    .pension-months-hint {
+        font-size: var(--text-xs);
     }
 
     .btn-group {

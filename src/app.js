@@ -301,7 +301,10 @@ function calculateRetirement() {
         }
     }
 
-    // 计算退休日期：出生年月 + 退休年龄（年+月）
+    // 计算原法定退休日期（不延迟）
+    const originalRetirementDate = new Date(birthYear + config.startAge, birthMonth - 1, birthDate.getDate());
+
+    // 计算实际退休日期：出生年月 + 退休年龄（年+月）
     const retirementYears = Math.floor(actualRetirementAge);
     const retirementMonths = Math.round((actualRetirementAge - retirementYears) * 12);
 
@@ -331,6 +334,7 @@ function calculateRetirement() {
 
     document.getElementById('currentAge').textContent = formatAge(ageDetail.years, ageDetail.months);
     document.getElementById('originalRetirementAge').textContent = config.startAge + ' 岁';
+    document.getElementById('originalRetirementDate').textContent = originalRetirementDate.toLocaleDateString('zh-CN');
     document.getElementById('delayedRetirementAge').textContent = actualRetirementAge.toFixed(2) + ' 岁';
     document.getElementById('retirementDate').textContent = retirementDate.toLocaleDateString('zh-CN');
 
@@ -369,6 +373,7 @@ function calculateRetirement() {
         gender: gender,
         identityType: identityType,
         originalAge: config.startAge,
+        originalRetirementDate: originalRetirementDate.toLocaleDateString('zh-CN'),
         delayedAge: finalRetirementAge.toFixed(2),
         actualAge: actualRetirementAge.toFixed(2),
         retirementDate: retirementDate.toLocaleDateString('zh-CN'),
@@ -400,6 +405,7 @@ function exportRetirementResult() {
 出生日期：${result.birthDate}
 性别：${result.gender === 'male' ? '男性' : '女性'}
 原法定退休年龄：${result.originalAge}岁
+原法定预计退休日期：${result.originalRetirementDate}
 延迟后退休年龄：${result.delayedAge}岁
 实际退休年龄：${result.actualAge}岁
 预计退休日期：${result.retirementDate}
@@ -480,7 +486,7 @@ function calculatePension() {
     const totalMonthly = basicPension + personalPension + transitionPension;
 
     document.getElementById('basicPension').textContent = '¥' + formatMoney(basicPension);
-    document.getElementById('personalPension').textContent = '¥' + formatMoney(personalPension) + `（计发月数：${pensionMonths}）`;
+    document.getElementById('personalPension').innerHTML = '¥' + formatMoney(personalPension) + `<span class="pension-months-hint">（计发月数：${pensionMonths}）</span>`;
 
     if (hasTransition && deemedYears > 0) {
         document.getElementById('transitionPension').textContent = '¥' + formatMoney(transitionPension);
