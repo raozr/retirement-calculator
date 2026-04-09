@@ -301,11 +301,24 @@ function calculateRetirement() {
         }
     }
 
-    const retirementYear = birthYear + Math.floor(actualRetirementAge);
-    const retirementMonth = birthMonth - 1 + Math.round((actualRetirementAge % 1) * 12);
-    const retirementDate = new Date(retirementYear, retirementMonth % 12, birthDate.getDate());
-    if (retirementDate.getMonth() !== retirementMonth % 12) {
-        retirementDate.setDate(0);
+    // 计算退休日期：出生年月 + 退休年龄（年+月）
+    const retirementYears = Math.floor(actualRetirementAge);
+    const retirementMonths = Math.round((actualRetirementAge - retirementYears) * 12);
+
+    // 从出生年份开始累加
+    let retirementYear = birthYear + retirementYears;
+    let retirementMonth = (birthMonth - 1) + retirementMonths; // 0-indexed month
+
+    // 处理月份进位（超过12个月时年份+1）
+    if (retirementMonth >= 12) {
+        retirementYear += Math.floor(retirementMonth / 12);
+        retirementMonth = retirementMonth % 12;
+    }
+
+    // 创建退休日期，处理月末日期（如2月30日应变为2月28/29日）
+    let retirementDate = new Date(retirementYear, retirementMonth, birthDate.getDate());
+    if (retirementDate.getMonth() !== retirementMonth) {
+        retirementDate = new Date(retirementYear, retirementMonth + 1, 0);
     }
 
     const today = new Date();
