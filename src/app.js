@@ -346,8 +346,8 @@ function calculateRetirement() {
 
     const delayYears = Math.floor(delayMonths / 12);
     const delayRemainderMonths = delayMonths % 12;
-    document.getElementById('delayMonths').textContent = delayMonths + ' 个月' +
-        (delayYears > 0 ? `（约${delayYears}年${delayRemainderMonths}个月）` : '');
+    const delayMonthsHint = delayYears > 0 ? `（约${delayYears}年${delayRemainderMonths}个月）` : '';
+    document.getElementById('delayMonths').innerHTML = delayMonths + ' 个月<span class="pension-months-hint">' + delayMonthsHint + '</span>';
 
     const infoDiv = document.getElementById('retirementInfo');
     let html = '';
